@@ -6,31 +6,19 @@
 <title>Bay Area B'nai Mitzvah — Joyful Judaism, Lovingly Mentored</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ============ PALETTE — deeper, richer take on the brand swatches ============ */
 :root{
-  --forest:#3B4A34;      /* deep green (olive pushed rich) */
-  --olive:#6E7757;       /* mid green */
-  --sage:#C6C7B9;        /* soft green tint (from swatch) */
-  --honey:#E0A24E;       /* warm gold — the joy */
-  --honey-deep:#C4842F;
-  --rose:#C77B84;        /* deep berry rose (from swatch, enriched) */
-  --clay:#A9705F;        /* rosewood/clay (from mauve, enriched) */
-  --blush:#F0D9D2;       /* warm blush tint */
-  --cream:#FBF6EC;       /* warm ivory ground */
-  --cream-2:#FFFDF8;
-  --ink:#282820;         /* warm near-black */
-  --ink-soft:#57584A;
-  --line:rgba(40,40,32,.12);
-
+  --forest:#3B4A34;--olive:#6E7757;--sage:#C6C7B9;--honey:#E0A24E;--honey-deep:#C4842F;
+  --rose:#C77B84;--clay:#A9705F;--blush:#F0D9D2;--cream:#FBF6EC;--cream-2:#FFFDF8;
+  --ink:#282820;--ink-soft:#57584A;--line:rgba(40,40,32,.12);
   --serif:'Bogart Medium','Bogart','Fraunces',Georgia,serif;
   --sans:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
-  --hebrew:'Frank Ruhl Libre','Fraunces',serif;
-  --ease:cubic-bezier(.16,1,.3,1);
+  --hebrew:'Frank Ruhl Libre','Fraunces',serif;--ease:cubic-bezier(.16,1,.3,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{font-family:var(--sans);color:var(--ink);background:var(--cream);overflow-x:hidden;line-height:1.6}
 ::selection{background:var(--honey);color:var(--forest)}
 a{color:inherit;text-decoration:none}
@@ -40,19 +28,37 @@ img{display:block;max-width:100%}
 .eyebrow{font-family:var(--sans);font-weight:700;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);display:inline-flex;align-items:center;gap:.7rem}
 .eyebrow .heb{font-family:var(--hebrew);font-size:1.15rem;letter-spacing:0;text-transform:none;color:var(--olive);font-weight:500}
 .eyebrow::before{content:"";width:26px;height:2px;background:var(--honey);border-radius:2px}
-
-/* honey highlight-marker under words (joyful signature) */
 .mark-hl{position:relative;display:inline-block;color:var(--forest)}
 .mark-hl::after{content:"";position:absolute;left:-.06em;right:-.06em;bottom:.08em;height:.34em;background:var(--honey);opacity:.55;z-index:-1;border-radius:4px;transform:scaleX(0);transform-origin:left;transition:transform 1s var(--ease)}
 .mark-hl.lit::after{transform:scaleX(1)}
 
-/* ============ PHOTO SYSTEM (photography-forward) ============ */
-/* Drop real photos via the PHOTOS config in the script; until then, rich duotone art fills. */
+/* ===== INTRO LOADER ===== */
+.loader{position:fixed;inset:0;z-index:200;background:var(--forest);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem}
+.loader .ld-mark{font-family:var(--hebrew);font-size:4rem;color:var(--honey);opacity:0}
+.loader .ld-bar{width:min(60vw,240px);height:2px;background:rgba(251,246,236,.2);border-radius:2px;overflow:hidden}
+.loader .ld-bar i{display:block;height:100%;width:0;background:var(--honey);border-radius:2px}
+.loader .ld-t{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--sage)}
+@keyframes loaderFail{to{opacity:0;visibility:hidden}}
+.loader.fallback{animation:loaderFail .6s ease 2.4s forwards}
+
+/* ===== SCROLL PROGRESS ===== */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--honey),var(--rose));z-index:90}
+
+/* ===== CUSTOM CURSOR ===== */
+.cur-dot,.cur-ring{position:fixed;top:0;left:0;z-index:150;pointer-events:none;border-radius:50%;will-change:transform}
+.cur-dot{width:7px;height:7px;background:var(--honey-deep)}
+.cur-ring{width:38px;height:38px;border:1.5px solid var(--clay);transition:width .3s var(--ease),height .3s var(--ease),background .3s,border-color .3s,opacity .3s}
+.cur-ring.big{width:64px;height:64px;background:rgba(224,162,78,.14);border-color:var(--honey)}
+body.has-cursor{cursor:none}
+body.has-cursor a,body.has-cursor button,body.has-cursor .video-card,body.has-cursor .photo{cursor:none}
+@media(pointer:coarse){.cur-dot,.cur-ring{display:none}}
+
+/* ===== PHOTO SYSTEM ===== */
 .photo{position:relative;overflow:hidden;border-radius:20px;isolation:isolate;background:var(--sage)}
-.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;will-change:transform}
 .photo .fill{position:absolute;inset:-4%;z-index:1;will-change:transform}
-.photo .grain{position:absolute;inset:0;z-index:3;mix-blend-mode:soft-light;opacity:.45;pointer-events:none}
-.photo .glow{position:absolute;z-index:2;border-radius:50%;filter:blur(24px);opacity:.5;pointer-events:none}
+.photo .grain{position:absolute;inset:0;z-index:3;mix-blend-mode:soft-light;opacity:.3;pointer-events:none}
+.photo .glow{position:absolute;z-index:1;border-radius:50%;filter:blur(24px);opacity:.5;pointer-events:none}
 .photo .cap{position:absolute;left:14px;bottom:14px;z-index:4;background:rgba(40,40,32,.42);backdrop-filter:blur(6px);color:var(--cream);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:.4rem .75rem;border-radius:100px}
 .fill.a{background:radial-gradient(70% 60% at 30% 20%,#f3d6a0,transparent 60%),linear-gradient(150deg,var(--olive),var(--forest))}
 .fill.b{background:radial-gradient(70% 60% at 70% 20%,#f4dcd6,transparent 60%),linear-gradient(150deg,var(--rose),var(--clay))}
@@ -61,27 +67,31 @@ img{display:block;max-width:100%}
 .fill.e{background:radial-gradient(70% 65% at 35% 25%,var(--blush),transparent 60%),linear-gradient(160deg,var(--clay),var(--forest))}
 .fill.f{background:radial-gradient(75% 65% at 65% 30%,#f6e2b4,transparent 62%),linear-gradient(150deg,var(--rose),var(--honey-deep))}
 
-/* ============ NAV ============ */
-.nav{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.2rem,5vw,3.5rem);transition:background .5s var(--ease),backdrop-filter .5s,box-shadow .5s,padding .5s}
+/* ===== NAV ===== */
+.nav{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.2rem,5vw,3.5rem);transition:background .5s var(--ease),backdrop-filter .5s,box-shadow .5s,padding .5s,transform .5s var(--ease)}
 .nav.scrolled{background:rgba(251,246,236,.85);backdrop-filter:blur(14px) saturate(1.1);box-shadow:0 1px 0 var(--line);padding-block:.75rem}
+.nav.hide{transform:translateY(-115%)}
 .brand{display:flex;align-items:center;gap:.65rem;font-family:var(--serif);font-size:1.12rem;font-weight:500}
 .brand .bm{width:40px;height:40px;border-radius:12px;background:var(--forest);display:grid;place-items:center;color:var(--honey);font-family:var(--hebrew);font-size:1.35rem;flex:0 0 auto}
 .brand small{display:block;font-family:var(--sans);font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;color:var(--clay);margin-top:2px}
-.nav-links{display:flex;align-items:center;gap:2.1rem}
+.nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a{font-size:.82rem;font-weight:600;color:var(--ink-soft);position:relative;padding:.2rem 0}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--honey);border-radius:2px;transition:width .4s var(--ease)}
 .nav-links a:hover{color:var(--ink)}.nav-links a:hover::after{width:100%}
-.nav-cta{font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--cream);background:var(--forest);padding:.72rem 1.5rem;border-radius:100px;border:none;cursor:pointer;will-change:transform;transition:background .4s,box-shadow .4s;box-shadow:0 10px 24px -12px rgba(59,74,52,.8)}
+.nav-cta{position:relative;overflow:hidden;font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--cream);background:var(--forest);padding:.72rem 1.5rem;border-radius:100px;border:none;cursor:pointer;will-change:transform;transition:background .4s,box-shadow .4s;box-shadow:0 10px 24px -12px rgba(59,74,52,.8)}
 .nav-cta:hover{background:var(--olive)}
+.sheen::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);transition:none}
+.sheen:hover::before{animation:sheen .9s var(--ease)}
+@keyframes sheen{to{left:130%}}
 .burger{display:none;background:none;border:none;cursor:pointer;color:var(--ink)}
 
-/* ============ LAYOUT ============ */
+/* ===== LAYOUT ===== */
 section{position:relative}
 .wrap{max-width:1260px;margin:0 auto;padding:0 clamp(1.2rem,5vw,3.5rem)}
 .pad{padding-block:clamp(5rem,11vw,9rem)}
 .confetti{position:absolute;border-radius:2px;z-index:1;pointer-events:none;opacity:.85}
 
-/* ============ HERO ============ */
+/* ===== HERO ===== */
 .hero{min-height:100svh;display:flex;align-items:center;padding-top:6.5rem;overflow:hidden;background:
   radial-gradient(120% 80% at 8% 4%,var(--blush) 0%,transparent 46%),
   radial-gradient(100% 90% at 100% 100%,#f6e6c4 0%,transparent 46%),var(--cream)}
@@ -92,12 +102,11 @@ section{position:relative}
 .hero h1 em{font-style:italic;font-weight:400;color:var(--clay)}
 .hero .sub{font-size:clamp(1.05rem,1.5vw,1.28rem);color:var(--ink-soft);max-width:34ch}
 .hero-ctas{display:flex;align-items:center;gap:1.3rem;margin-top:2.3rem;flex-wrap:wrap}
-.btn-primary{font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--forest);background:var(--honey);padding:1.05rem 2rem;border-radius:100px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.6rem;will-change:transform;box-shadow:0 16px 34px -14px rgba(224,162,78,.9);transition:background .4s}
+.btn-primary{position:relative;overflow:hidden;font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--forest);background:var(--honey);padding:1.05rem 2rem;border-radius:100px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.6rem;will-change:transform;box-shadow:0 16px 34px -14px rgba(224,162,78,.9);transition:background .4s}
 .btn-primary:hover{background:var(--honey-deep)}
 .btn-ghost{display:inline-flex;align-items:center;gap:.6rem;font-weight:700;font-size:.92rem;color:var(--ink);cursor:pointer;background:none;border:none}
 .btn-ghost .ico{width:42px;height:42px;border-radius:50%;background:var(--cream-2);border:1.5px solid var(--line);display:grid;place-items:center;color:var(--forest);transition:.4s var(--ease)}
 .btn-ghost:hover .ico{background:var(--forest);color:var(--honey);transform:scale(1.06)}
-
 .hero-art{position:relative;height:min(72vh,560px)}
 .hero-photo-main{position:absolute;inset:0 0 0 14%;border-radius:26px;box-shadow:0 50px 90px -40px rgba(59,74,52,.55)}
 .hero-photo-sub{position:absolute;left:-2%;bottom:-6%;width:46%;aspect-ratio:4/5;border-radius:20px;z-index:5;border:6px solid var(--cream);box-shadow:0 30px 60px -30px rgba(40,40,32,.5)}
@@ -110,22 +119,23 @@ section{position:relative}
 .scroll-hint .l::after{content:"";position:absolute;inset:0;width:40%;background:var(--honey);border-radius:2px;animation:slide 1.8s var(--ease) infinite}
 @keyframes slide{0%{left:-40%}60%,100%{left:100%}}
 
-/* ============ MOMENTS STRIP ============ */
+/* ===== MOMENTS STRIP ===== */
 .moments{padding-block:clamp(2.5rem,5vw,4rem);background:var(--cream);overflow:hidden}
 .strip-mask{position:relative}
 .strip-mask::before,.strip-mask::after{content:"";position:absolute;top:0;bottom:0;width:9%;z-index:3;pointer-events:none}
 .strip-mask::before{left:0;background:linear-gradient(90deg,var(--cream),transparent)}
 .strip-mask::after{right:0;background:linear-gradient(-90deg,var(--cream),transparent)}
 .strip{display:flex;gap:1.1rem;width:max-content;will-change:transform}
-.strip .photo{width:clamp(200px,26vw,300px);aspect-ratio:4/3;flex:0 0 auto}
+.strip .photo{width:clamp(200px,26vw,300px);aspect-ratio:4/3;flex:0 0 auto;transition:transform .5s var(--ease)}
+.strip .photo:hover{transform:translateY(-8px) scale(1.02)}
 
-/* ============ SECTION HEADERS ============ */
+/* ===== SECTION HEADERS ===== */
 .sec-head h2{font-size:clamp(2rem,4.6vw,3.5rem);margin:.9rem 0 0}
 .sec-head h2 .word{display:inline-block;overflow:hidden;vertical-align:top}
 .sec-head h2 .word span{display:inline-block;will-change:transform}
 .reveal{opacity:0}
 
-/* ============ PHILOSOPHY ============ */
+/* ===== PHILOSOPHY ===== */
 .philo{background:var(--cream)}
 .philo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5.5rem);align-items:center}
 .philo-art{position:relative;height:min(66vh,520px)}
@@ -139,7 +149,7 @@ section{position:relative}
 .pillar b{font-family:var(--serif);font-size:2rem;color:var(--olive);display:block}
 .pillar span{font-size:.8rem;color:var(--ink-soft)}
 
-/* ============ SERVICES ============ */
+/* ===== SERVICES ===== */
 .services{background:linear-gradient(180deg,var(--cream),#f6ead2)}
 .svc-top{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
 .svc-top p{max-width:34ch;color:var(--ink-soft)}
@@ -154,8 +164,7 @@ section{position:relative}
 .card .tag{margin-top:auto;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--honey-deep);display:inline-flex;align-items:center;gap:.5rem;transition:color .5s}
 .card:hover{transform:translateY(-8px);box-shadow:0 44px 74px -34px rgba(40,40,32,.5);border-color:transparent}
 .card:hover::before{opacity:1}
-.card:hover h3{color:var(--cream)}
-.card:hover .tag{color:var(--honey)}
+.card:hover h3{color:var(--cream)}.card:hover .tag{color:var(--honey)}
 .card:hover .desc{max-height:220px;opacity:1;margin-top:.2rem;color:rgba(251,246,236,.86)}
 .card:hover .ico{background:rgba(251,246,236,.16);color:var(--honey)}
 .card:hover .num{color:rgba(251,246,236,.5)}
@@ -164,22 +173,41 @@ section{position:relative}
 @keyframes pulse{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(1.7);opacity:0}}
 .card.demo:hover .play{background:var(--honey);color:var(--forest)}
 
-/* ============ TESTIMONIALS ============ */
+/* ===== VIDEO SHOWCASE ===== */
+.films{background:var(--cream);overflow:hidden}
+.films .svc-top{margin-bottom:2.6rem}
+.film-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.video-card{position:relative;display:block;border-radius:22px;overflow:hidden;aspect-ratio:16/10;box-shadow:0 26px 50px -30px rgba(40,40,32,.5);cursor:pointer;isolation:isolate}
+.video-card:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.video-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .8s var(--ease)}
+.video-card .vfill{position:absolute;inset:0;z-index:0}
+.video-card::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(40,40,32,.05) 40%,rgba(40,40,32,.72));transition:background .5s}
+.video-card:hover img{transform:scale(1.07)}
+.video-card:hover::after{background:linear-gradient(180deg,rgba(59,74,52,.25) 20%,rgba(40,40,32,.78))}
+.video-card .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;width:66px;height:66px;border-radius:50%;background:rgba(251,246,236,.92);color:var(--forest);display:grid;place-items:center;transition:.5s var(--ease)}
+.video-card:hover .vplay{background:var(--honey);transform:translate(-50%,-50%) scale(1.12)}
+.video-card .vplay::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(251,246,236,.6);animation:pulse 2.6s var(--ease) infinite}
+.video-card .vmeta{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:1.3rem 1.4rem;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem}
+.video-card .vmeta h4{font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--cream);line-height:1.1}
+.video-card:first-child .vmeta h4{font-size:1.7rem}
+.video-card .dur{flex:0 0 auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--forest);background:var(--honey);padding:.3rem .6rem;border-radius:100px}
+.films-cta{margin-top:2.4rem;text-align:center}
+
+/* ===== TESTIMONIALS ===== */
 .voices{background:var(--forest);color:var(--cream);overflow:hidden}
 .voices .eyebrow{color:var(--honey)}.voices .eyebrow::before{background:var(--honey)}
-.voices .eyebrow .heb{color:var(--sage)}
-.voices h2{color:var(--cream)}
+.voices .eyebrow .heb{color:var(--sage)}.voices h2{color:var(--cream)}
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:3rem}
 .tcard{background:rgba(251,246,236,.06);border:1px solid rgba(251,246,236,.14);border-radius:26px;padding:2.6rem 2.3rem;transition:transform .5s var(--ease),background .5s}
 .tcard:hover{transform:translateY(-6px);background:rgba(251,246,236,.1)}
 .tcard .mark{font-family:var(--serif);font-size:3.4rem;line-height:.4;color:var(--honey);display:block;height:1.5rem}
-.tcard q{quotes:none;font-family:var(--serif);font-size:clamp(1.25rem,1.9vw,1.55rem);line-height:1.42;font-weight:400;display:block;margin:1rem 0 1.8rem}
+.tcard q{quotes:none;font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.5rem);line-height:1.42;font-weight:400;display:block;margin:1rem 0 1.8rem}
 .tcard .who{display:flex;align-items:center;gap:1rem}
 .tcard .who .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--honey),var(--rose));display:grid;place-items:center;font-family:var(--serif);font-size:1.3rem;color:var(--forest);flex:0 0 auto}
 .tcard .who b{display:block;font-family:var(--serif);font-size:1.05rem;font-weight:500}
 .tcard .who span{font-size:.78rem;color:var(--sage)}
 
-/* ============ CONTACT ============ */
+/* ===== CONTACT ===== */
 .contact{background:radial-gradient(90% 80% at 100% 0%,#f6e6c4,transparent 48%),radial-gradient(80% 80% at 0% 100%,var(--blush),transparent 46%),var(--cream)}
 .contact-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:center}
 .contact-left h2{font-size:clamp(2.2rem,5vw,3.9rem);margin:1rem 0}
@@ -195,18 +223,20 @@ section{position:relative}
 .field input:focus~label,.field textarea:focus~label,.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{top:-.9rem;font-size:.72rem;letter-spacing:.1em;color:var(--clay);text-transform:uppercase}
 .form .submit{margin-top:2.1rem;width:100%;justify-content:center}
 
-/* ============ FOOTER ============ */
+/* ===== FOOTER ===== */
 .footer{background:var(--ink);color:var(--sage)}
 .footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:1.4rem;flex-wrap:wrap;padding-block:2.3rem}
 .footer .brand{color:var(--cream)}.footer .brand small{color:var(--sage)}
 .footer .fl{display:flex;gap:1.5rem;font-size:.82rem}.footer .fl a:hover{color:var(--honey)}
 .footer .cr{font-size:.78rem;opacity:.7;width:100%;text-align:center;border-top:1px solid rgba(251,246,236,.1);padding-top:1.3rem;margin-top:.3rem}
 
-/* ============ RESPONSIVE ============ */
+/* ===== RESPONSIVE ===== */
 @media(max-width:960px){
   .hero-grid,.philo-grid,.contact-grid{grid-template-columns:1fr}
   .hero-art,.philo-art{height:60vh;margin-top:2.5rem;max-width:460px;width:100%}
   .svc-grid,.tgrid{grid-template-columns:1fr}
+  .film-grid{grid-template-columns:1fr 1fr}
+  .video-card:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/10}
   .nav-links{display:none}.burger{display:grid;place-items:center}
 }
 @media(max-width:560px){
@@ -215,6 +245,8 @@ section{position:relative}
   .card::before{display:none}
   .card h3{color:inherit}.card:hover h3{color:var(--ink)}.card:hover .tag{color:var(--honey-deep)}
   .card:hover .ico{background:var(--blush);color:var(--clay)}.card:hover .desc{color:var(--ink-soft)}
+  .film-grid{grid-template-columns:1fr}
+  .video-card:first-child{grid-column:auto}
   .footer .wrap{flex-direction:column;text-align:center}
   .hero-photo-sub{width:42%}
 }
@@ -223,32 +255,35 @@ section{position:relative}
 .mobile-menu a{font-family:var(--serif);font-size:2rem;color:var(--ink)}
 .mobile-menu .close{position:absolute;top:1.4rem;right:1.4rem;background:none;border:none;cursor:pointer;color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  *{animation:none!important;transition-duration:.01ms!important}
   .reveal,.word span{opacity:1!important;transform:none!important}
   .mark-hl::after{transform:scaleX(1)!important}
+  .loader{display:none!important}
 }
 </style>
 </head>
 <body>
 
-<!-- ================= NAV ================= -->
+<!-- ===== LOADER / PROGRESS / CURSOR ===== -->
+<div class="loader fallback" id="loader"><div class="ld-mark">חי</div><div class="ld-bar"><i></i></div><div class="ld-t">Bringing joyful Judaism</div></div>
+<div class="progress" id="prog"></div>
+<div class="cur-ring" id="curRing"></div><div class="cur-dot" id="curDot"></div>
+
+<!-- ===== NAV ===== -->
 <nav class="nav" id="nav">
   <a href="#top" class="brand"><span class="bm">חי</span><span>Bay Area B'nai Mitzvah<small>Joyful Judaism</small></span></a>
   <div class="nav-links">
-    <a href="#philosophy">Philosophy</a>
-    <a href="#services">Offerings</a>
-    <a href="#voices">Voices</a>
-    <a href="#contact">Contact</a>
+    <a href="#philosophy">Philosophy</a><a href="#services">Offerings</a><a href="#films">Films</a><a href="#voices">Voices</a><a href="#contact">Contact</a>
   </div>
-  <button class="nav-cta magnetic" data-scroll="#contact">Start Your Journey</button>
+  <button class="nav-cta sheen magnetic" data-scroll="#contact">Start Your Journey</button>
   <button class="burger" id="burger" aria-label="Open menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <button class="close" id="closeMenu" aria-label="Close menu"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <a href="#philosophy" class="mm">Philosophy</a><a href="#services" class="mm">Offerings</a><a href="#voices" class="mm">Voices</a><a href="#contact" class="mm">Contact</a>
+  <a href="#philosophy" class="mm">Philosophy</a><a href="#services" class="mm">Offerings</a><a href="#films" class="mm">Films</a><a href="#voices" class="mm">Voices</a><a href="#contact" class="mm">Contact</a>
 </div>
 
-<!-- ================= HERO ================= -->
+<!-- ===== HERO ===== -->
 <section class="hero" id="top">
   <span class="confetti" style="width:12px;height:12px;background:var(--honey);top:24%;left:6%;transform:rotate(20deg)" data-parallax="0.5"></span>
   <span class="confetti" style="width:9px;height:9px;background:var(--rose);top:70%;left:40%;border-radius:50%" data-parallax="0.8"></span>
@@ -259,24 +294,19 @@ section{position:relative}
       <h1 class="display" id="heroTitle">Creating a legacy to lovingly <em>mentor</em> B'nai Mitzvah students.</h1>
       <p class="sub" data-load>Bringing <span class="mark-hl">joyful Judaism</span> to the Bay Area — one child, one story, one sacred ceremony at a time.</p>
       <div class="hero-ctas" data-load>
-        <button class="btn-primary magnetic" data-scroll="#contact">Start Your Journey
+        <button class="btn-primary sheen magnetic" data-scroll="#contact">Start Your Journey
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <button class="btn-ghost" data-scroll="#services"><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>See the offerings</button>
+        <button class="btn-ghost" data-scroll="#films"><span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>Watch the films</button>
       </div>
     </div>
     <div class="hero-art" data-load="art">
       <div class="photo hero-photo-main" data-photo="hero1" data-kb>
         <div class="fill a"></div>
         <div class="glow" style="width:180px;height:180px;background:var(--honey);top:10%;left:20%"></div>
-        <div class="glow" style="width:120px;height:120px;background:var(--rose);bottom:14%;right:16%"></div>
         <svg class="grain" width="100%" height="100%"><filter id="g1"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g1)"/></svg>
-        <span class="cap">Under the chuppah</span>
+        <span class="cap">Miriam, leading a Bat Mitzvah</span>
       </div>
-      <div class="photo hero-photo-sub" data-photo="hero2" data-kb>
-        <div class="fill b"></div>
-        <svg class="grain" width="100%" height="100%"><filter id="g2"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g2)"/></svg>
-        <span class="cap">Torah study</span>
-      </div>
+      <div class="photo hero-photo-sub" data-photo="hero2" data-kb><div class="fill b"></div></div>
       <div class="hero-chip" data-load>
         <span class="st"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z"/></svg></span>
         <div><b>Warm & personal</b><span>1-on-1 mentoring</span></div>
@@ -286,24 +316,26 @@ section{position:relative}
   <div class="scroll-hint" data-load>Scroll<div class="l"></div></div>
 </section>
 
-<!-- ================= MOMENTS STRIP ================= -->
+<!-- ===== MOMENTS STRIP ===== -->
 <section class="moments">
   <div class="strip-mask"><div class="strip" id="strip">
-    <div class="photo" data-photo="m1"><div class="fill c"></div><span class="cap">Candlelight</span></div>
-    <div class="photo" data-photo="m2"><div class="fill d"></div><span class="cap">First aliyah</span></div>
-    <div class="photo" data-photo="m3"><div class="fill e"></div><span class="cap">The hora</span></div>
-    <div class="photo" data-photo="m4"><div class="fill f"></div><span class="cap">Challah blessing</span></div>
-    <div class="photo" data-photo="m5"><div class="fill a"></div><span class="cap">Studying trope</span></div>
-    <div class="photo" data-photo="m6"><div class="fill b"></div><span class="cap">Family & joy</span></div>
+    <div class="photo" data-photo="m1"><div class="fill c"></div><span class="cap">Joy</span></div>
+    <div class="photo" data-photo="m2"><div class="fill d"></div><span class="cap">Community</span></div>
+    <div class="photo" data-photo="m3"><div class="fill e"></div><span class="cap">The ceremony</span></div>
+    <div class="photo" data-photo="m4"><div class="fill f"></div><span class="cap">Simcha</span></div>
+    <div class="photo" data-photo="m5"><div class="fill a"></div><span class="cap">Together</span></div>
+    <div class="photo" data-photo="m6"><div class="fill b"></div><span class="cap">Family</span></div>
+    <div class="photo" data-photo="m7"><div class="fill c"></div><span class="cap">Celebration</span></div>
+    <div class="photo" data-photo="m8"><div class="fill d"></div><span class="cap">Mazel tov</span></div>
   </div></div>
 </section>
 
-<!-- ================= PHILOSOPHY ================= -->
+<!-- ===== PHILOSOPHY ===== -->
 <section class="philo pad" id="philosophy">
   <div class="wrap philo-grid">
     <div class="philo-art">
-      <div class="photo p1 reveal" data-reveal="scale" data-photo="phil1" data-kb><div class="fill d"></div><svg class="grain" width="100%" height="100%"><filter id="g3"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g3)"/></svg></div>
-      <div class="photo p2 reveal" data-reveal="scale" data-photo="phil2" data-kb><div class="fill f"></div></div>
+      <div class="photo p1 reveal" data-reveal="clip" data-photo="phil1" data-kb><div class="fill d"></div><svg class="grain" width="100%" height="100%"><filter id="g3"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g3)"/></svg></div>
+      <div class="photo p2 reveal" data-reveal="clip" data-photo="phil2" data-kb><div class="fill f"></div></div>
       <div class="philo-quote reveal" data-reveal>A ceremony we co-create — together.<small>The heart of our work</small></div>
     </div>
     <div class="philo-body">
@@ -320,7 +352,7 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ================= SERVICES ================= -->
+<!-- ===== SERVICES ===== -->
 <section class="services pad" id="services">
   <div class="wrap">
     <div class="svc-top">
@@ -352,18 +384,36 @@ section{position:relative}
         <p class="desc">Spirited songleading that fills the room — the kind of music that turns a service into a celebration everyone sings along to and remembers.</p>
         <span class="tag">Live joy, in every melody</span>
       </article>
-      <article class="card demo reveal" data-reveal data-tilt>
+      <article class="card demo reveal" data-reveal data-tilt data-scroll="#films">
         <span class="num">04</span>
         <span class="play magnetic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         <h3>Videography Packages</h3>
         <p class="desc">Cinematic keepsakes of the day — from the first aliyah to the last hora — captured with warmth so you can relive every moment for years.</p>
-        <span class="tag">Watch demo →</span>
+        <span class="tag">Watch the demos ↓</span>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ================= TESTIMONIALS ================= -->
+<!-- ===== VIDEO SHOWCASE ===== -->
+<section class="films pad" id="films">
+  <div class="wrap">
+    <div class="svc-top">
+      <div>
+        <span class="eyebrow reveal" data-reveal><span class="heb">רְאוּ</span> · Moments in Motion</span>
+        <div class="sec-head"><h2 class="display" data-split>Watch how we create unforgettable celebrations.</h2></div>
+      </div>
+      <p class="reveal" data-reveal>A few films from real Bay Area simchas — click any to watch the full clip.</p>
+    </div>
+    <div class="film-grid" id="filmGrid"></div>
+    <div class="films-cta reveal" data-reveal>
+      <a class="btn-primary sheen magnetic" href="https://www.bayareabnaimitzvah.com/projects-6" target="_blank" rel="noopener">See all films
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
 <section class="voices pad" id="voices">
   <div class="wrap">
     <span class="eyebrow reveal" data-reveal><span class="heb">קוֹלוֹת</span> · Voices of Our Community</span>
@@ -383,7 +433,7 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
+<!-- ===== CONTACT ===== -->
 <section class="contact pad" id="contact">
   <span class="confetti" style="width:12px;height:12px;background:var(--honey);top:14%;left:5%;transform:rotate(25deg)" data-parallax="0.6"></span>
   <div class="wrap contact-grid">
@@ -400,155 +450,204 @@ section{position:relative}
       </div>
       <div class="field"><input id="sj" type="text" placeholder=" " /><label for="sj">Subject</label><span class="bar"></span></div>
       <div class="field"><textarea id="ms" rows="4" placeholder=" "></textarea><label for="ms">Message</label><span class="bar"></span></div>
-      <button class="btn-primary submit magnetic" type="submit">Send inquiry
+      <button class="btn-primary submit sheen magnetic" type="submit">Send inquiry
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </form>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
+<!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="wrap">
     <a href="#top" class="brand"><span class="bm">חי</span><span>Bay Area B'nai Mitzvah<small>Joyful Judaism</small></span></a>
-    <div class="fl"><a href="#philosophy">Philosophy</a><a href="#services">Offerings</a><a href="#voices">Voices</a><a href="#contact">Contact</a></div>
+    <div class="fl"><a href="#philosophy">Philosophy</a><a href="#services">Offerings</a><a href="#films">Films</a><a href="#voices">Voices</a><a href="#contact">Contact</a></div>
     <div class="cr">© Bay Area B'nai Mitzvah · Bringing joyful Judaism to the Bay Area · מַזָּל טוֹב</div>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.14/lenis.min.js"></script>
 <script>
-/* =========================================================
-   PHOTOS — drop in real image URLs and they slot straight in.
-   Keys match the data-photo="" attributes in the markup.
-   Leave "" to keep the art-directed placeholder fill.
-   e.g.  hero1: "https://your-cdn.com/chuppah.jpg",
-   ========================================================= */
+/* Real media pulled from bayareabnaimitzvah.com (Wix static CDN). */
+const WX = id => `https://static.wixstatic.com/media/${id}`;
 const PHOTOS = {
-  hero1:"", hero2:"",
-  m1:"", m2:"", m3:"", m4:"", m5:"", m6:"",
-  phil1:"", phil2:""
+  hero1: WX('364231_eb7bf76854b0489398a08d13c6b06381~mv2_d_5504_8256_s_4_2.jpg/v1/fill/w_900,h_1180,al_c,q_85,enc_auto/founder.jpg'),
+  hero2: WX('364231_5a1f16a75577420b92549b41beb115c0~mv2.jpg/v1/fill/w_700,h_875,al_c,q_85,enc_auto/h2.jpg'),
+  m1: WX('364231_e0f69b0e2a514a1fa15865e1d3bbcc8a~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m1.jpg'),
+  m2: WX('7c2097_de799284b73b49788b237d471c2b3735~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m2.jpg'),
+  m3: WX('364231_505cf16f3a434327a57216bc4d52721a~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m3.jpg'),
+  m4: WX('364231_c428839232234983be4ccedb6c79e4f0~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m4.jpg'),
+  m5: WX('364231_117fac82c4aa44709cf9eb44a51acbe9~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m5.jpg'),
+  m6: WX('364231_91a82572fd1d44739a9d3543bd5d830c~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m6.jpg'),
+  m7: WX('7c2097_b637299110e24361bd0d6a07e7d35b10~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m7.jpg'),
+  m8: WX('364231_f8b54f8dd99a4065a3a273d367836346~mv2.jpg/v1/fill/w_640,h_480,al_c,q_85,enc_auto/m8.jpg'),
+  phil1: WX('364231_3b9f202af5e14402b0db3c9ba58da6b4~mv2_d_2000_1333_s_2.jpg/v1/fill/w_1000,h_800,al_c,q_85,enc_auto/p1.jpg'),
+  phil2: WX('7c2097_9d61d696b97241d3901506bbcd79bb76~mv2.jpg/v1/fill/w_640,h_853,al_c,q_85,enc_auto/p2.jpg')
 };
+const VIDEO_PAGE = 'https://www.bayareabnaimitzvah.com/projects-6';
+const VIDEOS = [
+  {t:"Bay Area B'nai Mitzvah Promo", d:"1:43", p:'364231_2d0197ae759f4baaa73c76143198be6bf002.jpg', f:'f'},
+  {t:"B' Mitzvah Clip", d:"0:59", p:'364231_cbe7850fe7e34e669808d74a3ad19d3ff002.jpg', f:'a'},
+  {t:"Passing the Torah", d:"1:32", p:'364231_dbf09839f5ce4e57bb79972e346d79a3f002.jpg', f:'d'},
+  {t:"Siman Tov U' Mazel Tov!", d:"0:56", p:'364231_2469fddefca74cb9ba689e48f93753aef002.jpg', f:'c'},
+  {t:"Dance Party in Marin", d:"0:25", p:'364231_c0edd3fe0b33441193237707f9cc8fecf002.jpg', f:'b'},
+  {t:"Celebration", d:"1:11", p:'364231_84183eb4bd494d9fbee284ca28c0a31cf002.jpg', f:'e'}
+];
 
 (function(){
   const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasGSAP = typeof gsap !== 'undefined';
   if(hasGSAP && !RM) gsap.registerPlugin(ScrollTrigger);
 
-  /* inject real photos where provided */
+  /* build video cards */
+  const fg=document.getElementById('filmGrid');
+  fg.innerHTML=VIDEOS.map(v=>`
+    <a class="video-card reveal" data-reveal="clip" href="${VIDEO_PAGE}" target="_blank" rel="noopener" aria-label="Watch ${v.t}">
+      <div class="fill ${v.f} vfill"></div>
+      <img loading="lazy" alt="${v.t}" src="${WX(v.p+'/v1/fill/w_900,h_560,al_c,q_85,enc_auto/v.jpg')}" onerror="this.remove()">
+      <span class="vplay"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      <div class="vmeta"><h4>${v.t}</h4><span class="dur">${v.d}</span></div>
+    </a>`).join('');
+
+  /* inject real photos into placeholders */
+  const injected=[];
   Object.entries(PHOTOS).forEach(([k,url])=>{
-    if(!url) return;
-    const host=document.querySelector(`[data-photo="${k}"]`);
-    if(!host) return;
-    const img=new Image();
-    img.src=url; img.alt=k; img.loading="lazy";
+    const host=document.querySelector(`[data-photo="${k}"]`); if(!host) return;
+    const img=new Image(); img.src=url; img.alt=k; img.loading='lazy';
     img.onerror=()=>img.remove();
-    host.prepend(img);
+    host.prepend(img); injected.push(img);
   });
 
-  /* split hero title into words (preserving <em>) */
+  /* split hero title (preserve <em>) */
   const heroTitle=document.getElementById('heroTitle');
-  (function(){
-    const nodes=[...heroTitle.childNodes]; heroTitle.innerHTML='';
-    nodes.forEach(n=>{
-      if(n.nodeType===3){
-        n.textContent.trim().split(/\s+/).filter(Boolean).forEach(w=>
-          heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span>${w}</span></span> `));
-      }else{
-        heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span><em>${n.textContent.trim()}</em></span></span> `);
-      }
-    });
-  })();
-  document.querySelectorAll('[data-split]').forEach(el=>{
-    el.innerHTML=el.textContent.trim().split(/\s+/).map(w=>`<span class="word"><span>${w}</span></span>`).join(' ');
-  });
+  (function(){const nodes=[...heroTitle.childNodes];heroTitle.innerHTML='';
+    nodes.forEach(n=>{ if(n.nodeType===3){ n.textContent.trim().split(/\s+/).filter(Boolean).forEach(w=>
+      heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span>${w}</span></span> `)); }
+      else heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span><em>${n.textContent.trim()}</em></span></span> `); });})();
+  document.querySelectorAll('[data-split]').forEach(el=>{el.innerHTML=el.textContent.trim().split(/\s+/).map(w=>`<span class="word"><span>${w}</span></span>`).join(' ');});
 
-  /* nav + menu + smooth scroll */
-  const nav=document.getElementById('nav');
-  const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>40);
+  /* nav state + auto-hide + smooth scroll */
+  const nav=document.getElementById('nav'); let lastY=0;
+  const onScroll=()=>{const y=window.scrollY||document.documentElement.scrollTop;
+    nav.classList.toggle('scrolled',y>40);
+    nav.classList.toggle('hide', y>lastY+4 && y>460); if(y<lastY-4||y<=460)nav.classList.remove('hide'); lastY=y;};
   onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
   const mm=document.getElementById('mobileMenu');
   document.getElementById('burger').onclick=()=>mm.classList.add('open');
   document.getElementById('closeMenu').onclick=()=>mm.classList.remove('open');
   document.querySelectorAll('.mm').forEach(a=>a.onclick=()=>mm.classList.remove('open'));
-  document.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>{
-    const t=document.querySelector(b.dataset.scroll); if(t) t.scrollIntoView({behavior:RM?'auto':'smooth'});
-  }));
+
+  /* Lenis smooth scroll (graceful fallback) */
+  let lenis=null;
+  if(typeof Lenis!=='undefined' && !RM){
+    lenis=new Lenis({lerp:.09,wheelMultiplier:1.05});
+    lenis.on('scroll',()=>{if(hasGSAP)ScrollTrigger.update(); onScroll();});
+    if(hasGSAP){gsap.ticker.add(t=>lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0);}
+    else requestAnimationFrame(function r(t){lenis.raf(t);requestAnimationFrame(r);});
+  }
+  const goTo=sel=>{const t=document.querySelector(sel); if(!t)return;
+    if(lenis) lenis.scrollTo(t,{offset:-10}); else t.scrollIntoView({behavior:RM?'auto':'smooth'});};
+  document.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.scroll)));
+
+  /* LOADER out + start intro */
+  function fadeLoader(cb){const ld=document.getElementById('loader'); if(!ld)return cb&&cb();
+    if(hasGSAP&&!RM){gsap.to(ld,{yPercent:-100,duration:.9,ease:'power4.inOut',delay:.15,onComplete:()=>{ld.remove();cb&&cb();}});}
+    else {ld.remove(); cb&&cb();}}
 
   if(!hasGSAP||RM){
     document.querySelectorAll('.reveal').forEach(e=>e.style.opacity=1);
     document.querySelectorAll('.word span').forEach(e=>e.style.transform='none');
     document.querySelectorAll('.mark-hl').forEach(e=>e.classList.add('lit'));
-    return;
+    fadeLoader(); return;
   }
 
-  /* HERO load-in */
-  const tl=gsap.timeline({defaults:{ease:'power4.out'}});
-  tl.from('.hero .eyebrow',{y:20,opacity:0,duration:.8},.1)
-    .from('#heroTitle .word span',{yPercent:120,duration:1.05,stagger:.06},.2)
-    .from('.hero .sub',{y:24,opacity:0,duration:.9},'-=.6')
-    .from('.hero-ctas',{y:24,opacity:0,duration:.9},'-=.6')
-    .from('.hero-photo-main',{scale:.92,opacity:0,duration:1.15,ease:'power3.out'},'-=1.0')
-    .from('.hero-photo-sub',{y:30,opacity:0,duration:.9},'-=.8')
-    .from('.hero-chip',{y:18,opacity:0,duration:.7},'-=.5')
-    .from('.confetti',{scale:0,opacity:0,duration:.7,stagger:.1},'-=.6')
-    .from('.scroll-hint',{opacity:0,duration:.8},'-=.3')
-    .add(()=>document.querySelector('.mark-hl').classList.add('lit'),'-=.4');
+  /* custom cursor (desktop) */
+  if(window.matchMedia('(pointer:fine)').matches){
+    document.body.classList.add('has-cursor');
+    const dot=document.getElementById('curDot'), ring=document.getElementById('curRing');
+    gsap.set([dot,ring],{xPercent:-50,yPercent:-50});
+    const rx=gsap.quickTo(ring,'x',{duration:.4,ease:'power3'}), ry=gsap.quickTo(ring,'y',{duration:.4,ease:'power3'});
+    const dx=gsap.quickTo(dot,'x',{duration:.12,ease:'power3'}), dy=gsap.quickTo(dot,'y',{duration:.12,ease:'power3'});
+    window.addEventListener('mousemove',e=>{rx(e.clientX);ry(e.clientY);dx(e.clientX);dy(e.clientY);});
+    document.querySelectorAll('a,button,.video-card,.photo,[data-tilt]').forEach(el=>{
+      el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+      el.addEventListener('mouseleave',()=>ring.classList.remove('big'));});
+  }
 
+  /* loader progress then intro timeline */
+  const ldbar=document.querySelector('#loader .ld-bar i'), ldmark=document.querySelector('#loader .ld-mark');
+  gsap.to(ldmark,{opacity:1,duration:.5});
+  gsap.to(ldbar,{width:'100%',duration:1.0,ease:'power2.inOut',delay:.2,onComplete:()=>fadeLoader(intro)});
+
+  function intro(){
+    const tl=gsap.timeline({defaults:{ease:'power4.out'}});
+    tl.from('.hero .eyebrow',{y:20,opacity:0,duration:.8})
+      .from('#heroTitle .word span',{yPercent:120,duration:1.05,stagger:.06},'-=.4')
+      .from('.hero .sub',{y:24,opacity:0,duration:.9},'-=.6')
+      .from('.hero-ctas',{y:24,opacity:0,duration:.9},'-=.6')
+      .from('.hero-photo-main',{scale:.92,opacity:0,duration:1.15,ease:'power3.out'},'-=1.0')
+      .from('.hero-photo-sub',{y:30,opacity:0,duration:.9},'-=.8')
+      .from('.hero-chip',{y:18,opacity:0,duration:.7},'-=.5')
+      .from('.confetti',{scale:0,opacity:0,duration:.7,stagger:.1},'-=.6')
+      .from('.scroll-hint',{opacity:0,duration:.8},'-=.3')
+      .add(()=>document.querySelector('.mark-hl').classList.add('lit'),'-=.5');
+  }
+
+  /* micro float */
   gsap.to('.hero-ctas .btn-primary',{y:-6,duration:2.2,repeat:-1,yoyo:true,ease:'sine.inOut'});
   gsap.to('.hero-chip',{y:-8,duration:2.6,repeat:-1,yoyo:true,ease:'sine.inOut'});
 
-  /* Ken Burns on photo fills */
-  gsap.utils.toArray('[data-kb] .fill').forEach((f,i)=>
-    gsap.fromTo(f,{scale:1.06},{scale:1.16,duration:9+i*1.5,repeat:-1,yoyo:true,ease:'sine.inOut'}));
+  /* Ken Burns on placeholder fills + gentle drift on real images */
+  gsap.utils.toArray('[data-kb] .fill').forEach((f,i)=>gsap.fromTo(f,{scale:1.06},{scale:1.16,duration:9+i*1.5,repeat:-1,yoyo:true,ease:'sine.inOut'}));
+  injected.forEach((img,i)=>gsap.fromTo(img,{scale:1.02},{scale:1.1,duration:11+i,repeat:-1,yoyo:true,ease:'sine.inOut'}));
+
+  /* scroll progress */
+  gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{trigger:document.body,start:'top top',end:'bottom bottom',scrub:.3}});
 
   /* split section headers */
-  gsap.utils.toArray('[data-split]').forEach(h=>gsap.from(h.querySelectorAll('.word span'),{
-    yPercent:115,duration:.9,stagger:.05,ease:'power4.out',scrollTrigger:{trigger:h,start:'top 85%'}}));
+  gsap.utils.toArray('[data-split]').forEach(h=>gsap.from(h.querySelectorAll('.word span'),{yPercent:115,duration:.9,stagger:.05,ease:'power4.out',scrollTrigger:{trigger:h,start:'top 85%'}}));
 
-  /* highlight-markers lit on scroll */
+  /* highlight markers */
   gsap.utils.toArray('.mark-hl').forEach(m=>ScrollTrigger.create({trigger:m,start:'top 85%',onEnter:()=>m.classList.add('lit')}));
 
-  /* generic reveals */
+  /* reveals: y / scale / clip */
   gsap.utils.toArray('[data-reveal]').forEach(el=>{
-    const from = el.dataset.reveal==='scale'?{opacity:0,scale:.92}:{opacity:0,y:40};
-    gsap.fromTo(el,from,{opacity:1,y:0,scale:1,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+    const mode=el.dataset.reveal;
+    if(mode==='clip'){
+      gsap.fromTo(el,{opacity:1,clipPath:'inset(0 0 100% 0)'},{clipPath:'inset(0 0 0% 0)',duration:1.15,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+      el.style.opacity=1;
+    }else{
+      const from=mode==='scale'?{opacity:0,scale:.92}:{opacity:0,y:40};
+      gsap.fromTo(el,from,{opacity:1,y:0,scale:1,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+    }
   });
 
   /* parallax confetti */
-  gsap.utils.toArray('[data-parallax]').forEach(el=>{
-    const s=parseFloat(el.dataset.parallax);
-    gsap.to(el,{yPercent:-45*s,rotate:'+=30',ease:'none',scrollTrigger:{trigger:el.closest('section'),start:'top bottom',end:'bottom top',scrub:true}});
-  });
+  gsap.utils.toArray('[data-parallax]').forEach(el=>{const s=parseFloat(el.dataset.parallax);
+    gsap.to(el,{yPercent:-45*s,rotate:'+=30',ease:'none',scrollTrigger:{trigger:el.closest('section'),start:'top bottom',end:'bottom top',scrub:true}});});
 
-  /* service card stagger */
+  /* card + video stagger */
   gsap.from('.svc-grid .card',{y:50,opacity:0,duration:.9,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:'.svc-grid',start:'top 80%'}});
 
-  /* moments strip — seamless marquee */
-  (function(){
-    const s=document.getElementById('strip');
-    s.innerHTML+=s.innerHTML;
+  /* moments marquee + hover pause */
+  (function(){const s=document.getElementById('strip'); s.innerHTML+=s.innerHTML;
     const half=s.scrollWidth/2;
-    gsap.to(s,{x:-half,duration:34,ease:'none',repeat:-1,modifiers:{x:gsap.utils.unitize(x=>parseFloat(x)%half)}});
-  })();
+    const tw=gsap.to(s,{x:-half,duration:44,ease:'none',repeat:-1,modifiers:{x:gsap.utils.unitize(x=>parseFloat(x)%half)}});
+    s.parentElement.addEventListener('mouseenter',()=>tw.timeScale(.15));
+    s.parentElement.addEventListener('mouseleave',()=>tw.timeScale(1));})();
 
   /* magnetic buttons */
   document.querySelectorAll('.magnetic').forEach(btn=>{
-    btn.addEventListener('mousemove',e=>{
-      const r=btn.getBoundingClientRect();
-      gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.4,duration:.5,ease:'power3.out'});
-    });
-    btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}));
-  });
+    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();
+      gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.4,duration:.5,ease:'power3.out'});});
+    btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}));});
 
-  /* subtle 3D tilt on cards */
+  /* 3D tilt cards */
   document.querySelectorAll('[data-tilt]').forEach(card=>{
-    card.addEventListener('mousemove',e=>{
-      const r=card.getBoundingClientRect();
-      gsap.to(card,{rotateX:((e.clientY-r.top)/r.height-.5)*-5,rotateY:((e.clientX-r.left)/r.width-.5)*5,transformPerspective:900,duration:.5,ease:'power2.out'});
-    });
-    card.addEventListener('mouseleave',()=>gsap.to(card,{rotateX:0,rotateY:0,duration:.6,ease:'power2.out'}));
-  });
+    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();
+      gsap.to(card,{rotateX:((e.clientY-r.top)/r.height-.5)*-5,rotateY:((e.clientX-r.left)/r.width-.5)*5,transformPerspective:900,duration:.5,ease:'power2.out'});});
+    card.addEventListener('mouseleave',()=>gsap.to(card,{rotateX:0,rotateY:0,duration:.6,ease:'power2.out'}));});
 })();
 </script>
 </body>
