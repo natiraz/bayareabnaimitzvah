@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bay Area B'nai Mitzvah — Joyful Judaism, Lovingly Mentored</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ PALETTE — extracted from client brand artifact ============ */
+:root{
+  --olive:#858A76;        /* dark green circle */
+  --olive-deep:#565B49;   /* derived for AA text-on-color */
+  --sage:#C6C7B9;         /* light green circle */
+  --pale:#EADCDC;         /* pale pink circle */
+  --rose:#DAB5BC;         /* rose circle */
+  --blush:#EDCECB;        /* blush circle */
+  --mauve:#C4A8A5;        /* mauve/clay circle */
+  --cream:#F7F4EF;        /* off-white card ground from artifact */
+  --cream-2:#FBF9F5;
+  --ink:#242820;          /* warm near-black, olive family */
+  --ink-soft:#4C5245;     /* secondary text */
+  --line:rgba(86,91,73,.16);
+
+  --serif:'Bogart Medium','Bogart','Fraunces',Georgia,serif;
+  --sans:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --hebrew:'Frank Ruhl Libre','Fraunces',serif;
+
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--cream);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+::selection{background:var(--rose);color:#fff}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ============ TYPE SCALE ============ */
+.display{font-family:var(--serif);font-weight:500;line-height:.98;letter-spacing:-.02em}
+.eyebrow{
+  font-family:var(--hebrew);
+  font-size:clamp(1rem,1.4vw,1.15rem);
+  letter-spacing:.02em;color:var(--olive);
+  display:inline-flex;align-items:center;gap:.7rem
+}
+.eyebrow-lat{
+  font-family:var(--sans);font-weight:600;
+  font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--olive-deep)
+}
+.eyebrow::after{content:"";width:44px;height:1px;background:var(--mauve);opacity:.7}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.15rem clamp(1.2rem,5vw,3.5rem);
+  transition:background .5s var(--ease),backdrop-filter .5s,box-shadow .5s,padding .5s;
+}
+.nav.scrolled{
+  background:rgba(247,244,239,.82);
+  backdrop-filter:blur(14px) saturate(1.1);
+  box-shadow:0 1px 0 var(--line);
+  padding-top:.8rem;padding-bottom:.8rem;
+}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:-.01em}
+.brand .brandmark{width:34px;height:34px;flex:0 0 auto}
+.brand small{display:block;font-family:var(--sans);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--olive-deep);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:2.2rem}
+.nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.01em;color:var(--ink-soft);position:relative;padding:.2rem 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--olive);transition:width .4s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  font-family:var(--sans);font-weight:600;font-size:.82rem;
+  color:#fff;background:var(--olive-deep);
+  padding:.72rem 1.5rem;border-radius:100px;border:none;cursor:pointer;
+  will-change:transform;transition:background .4s,box-shadow .4s;
+  box-shadow:0 8px 20px -10px rgba(86,91,73,.7)
+}
+.nav-cta:hover{background:var(--olive);box-shadow:0 14px 30px -10px rgba(86,91,73,.8)}
+.burger{display:none;background:none;border:none;cursor:pointer;color:var(--ink)}
+
+/* ============ LAYOUT ============ */
+section{position:relative}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.2rem,5vw,3.5rem)}
+.pad{padding-block:clamp(5rem,11vw,9.5rem)}
+
+/* Ambient painted dots */
+.dot{position:absolute;border-radius:50%;filter:blur(.3px);opacity:.55;pointer-events:none;z-index:0}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;display:flex;align-items:center;padding-top:6rem;overflow:hidden;background:
+  radial-gradient(120% 90% at 12% 0%,var(--blush) 0%,transparent 45%),
+  radial-gradient(120% 100% at 100% 100%,var(--sage) 0%,transparent 42%),
+  var(--cream)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,5rem);align-items:center;width:100%;position:relative;z-index:2}
+.hero h1{font-size:clamp(2.6rem,6.6vw,5.6rem);margin:1.3rem 0 1.6rem}
+.hero h1 .word{display:inline-block;overflow:hidden;vertical-align:top}
+.hero h1 .word span{display:inline-block;will-change:transform}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--olive)}
+.hero .sub{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--ink-soft);max-width:32ch;font-weight:400}
+.hero-ctas{display:flex;align-items:center;gap:1.4rem;margin-top:2.4rem;flex-wrap:wrap}
+.btn-primary{
+  font-family:var(--sans);font-weight:600;font-size:.95rem;color:#fff;
+  background:var(--olive-deep);padding:1.05rem 2.1rem;border-radius:100px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.6rem;will-change:transform;
+  box-shadow:0 16px 34px -14px rgba(86,91,73,.85);transition:background .4s
+}
+.btn-primary:hover{background:var(--olive)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-size:.92rem;color:var(--ink);cursor:pointer;background:none;border:none}
+.btn-ghost .ico{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--mauve);display:grid;place-items:center;transition:.4s var(--ease)}
+.btn-ghost:hover .ico{background:var(--mauve);color:#fff;transform:scale(1.06)}
+
+/* Hero portrait framed in painted ring */
+.hero-art{position:relative;aspect-ratio:4/5;max-width:440px;margin-left:auto;width:100%}
+.ring-svg{position:absolute;inset:-9% -9% -9% -9%;width:118%;height:118%;z-index:3;pointer-events:none;overflow:visible}
+.ring-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.art-field{position:absolute;inset:0;border-radius:50%/48%;overflow:hidden;isolation:isolate}
+.art-field .kb{position:absolute;inset:-6%;will-change:transform}
+.art-field .grain{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.5;pointer-events:none}
+.badge{
+  position:absolute;left:-6%;bottom:8%;z-index:5;background:var(--cream-2);
+  border:1px solid var(--line);border-radius:18px;padding:.85rem 1.1rem;
+  box-shadow:0 24px 50px -24px rgba(36,40,32,.4);display:flex;align-items:center;gap:.7rem
+}
+.badge .chai{font-family:var(--hebrew);font-size:1.7rem;color:var(--olive);line-height:1}
+.badge b{font-family:var(--serif);font-size:1.05rem;display:block;line-height:1.1}
+.badge span{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.hebrew-watermark{
+  position:absolute;font-family:var(--hebrew);color:var(--olive);
+  opacity:.07;font-size:clamp(14rem,34vw,30rem);line-height:.8;z-index:1;
+  top:8%;right:-4%;pointer-events:none;user-select:none;font-weight:500
+}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--ink-soft);font-size:.66rem;letter-spacing:.28em;text-transform:uppercase}
+.scroll-hint .line{width:1px;height:38px;background:linear-gradient(var(--olive),transparent);position:relative;overflow:hidden}
+.scroll-hint .line::after{content:"";position:absolute;top:-40%;left:0;width:100%;height:40%;background:var(--olive);animation:drop 1.8s var(--ease) infinite}
+@keyframes drop{0%{top:-40%}60%,100%{top:100%}}
+
+/* ============ SECTION HEADERS (split reveal) ============ */
+.sec-head{max-width:34ch}
+.sec-head h2{font-size:clamp(2rem,4.6vw,3.6rem);margin:1rem 0 0}
+.sec-head h2 .word{display:inline-block;overflow:hidden;vertical-align:top}
+.sec-head h2 .word span{display:inline-block;will-change:transform}
+.reveal{opacity:0}
+
+/* ============ PHILOSOPHY ============ */
+.philo{background:var(--cream)}
+.philo-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(2rem,6vw,6rem);align-items:center}
+.philo-art{position:relative;aspect-ratio:5/6;max-width:460px}
+.philo-art .art-field{border-radius:50%/46%}
+.philo-quote{
+  position:absolute;right:-8%;top:12%;z-index:6;background:var(--olive-deep);color:var(--cream);
+  padding:1.5rem 1.6rem;border-radius:20px;max-width:250px;
+  box-shadow:0 30px 60px -28px rgba(36,40,32,.6);font-family:var(--serif);font-size:1.2rem;line-height:1.25
+}
+.philo-quote small{display:block;font-family:var(--sans);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-top:.8rem;font-weight:600}
+.philo-body p{font-size:clamp(1.05rem,1.5vw,1.35rem);color:var(--ink-soft);max-width:46ch;margin-top:1.6rem}
+.philo-body p .lead{color:var(--ink);font-weight:500}
+.pillars{display:flex;gap:2.5rem;margin-top:2.6rem;flex-wrap:wrap}
+.pillar{display:flex;flex-direction:column;gap:.2rem}
+.pillar b{font-family:var(--serif);font-size:2rem;color:var(--olive)}
+.pillar span{font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft)}
+
+/* ============ SERVICES ============ */
+.services{background:linear-gradient(180deg,var(--cream) 0%,var(--blush) 120%)}
+.svc-top{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:3.2rem}
+.svc-top p{max-width:34ch;color:var(--ink-soft);font-size:1rem}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.card{
+  position:relative;background:var(--cream-2);border:1px solid var(--line);border-radius:26px;
+  padding:2.2rem 2.1rem;overflow:hidden;cursor:pointer;min-height:280px;
+  display:flex;flex-direction:column;
+  transition:transform .55s var(--ease),box-shadow .55s var(--ease),background .55s var(--ease),border-color .55s
+}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(150deg,var(--olive-deep),var(--olive));opacity:0;transition:opacity .55s var(--ease);z-index:0}
+.card>*{position:relative;z-index:1;transition:color .55s var(--ease)}
+.card .ico{width:56px;height:56px;border-radius:16px;background:var(--sage);color:var(--olive-deep);display:grid;place-items:center;transition:.55s var(--ease)}
+.card .num{position:absolute;top:1.8rem;right:2rem;font-family:var(--serif);font-size:1rem;color:var(--mauve);z-index:1}
+.card h3{font-family:var(--serif);font-size:1.55rem;margin:1.4rem 0 .5rem;font-weight:500}
+.card .desc{color:var(--ink-soft);font-size:.95rem;max-height:0;opacity:0;overflow:hidden;transition:max-height .6s var(--ease),opacity .5s var(--ease),margin .5s}
+.card .tag{margin-top:auto;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--olive-deep);display:inline-flex;align-items:center;gap:.5rem;transition:color .55s}
+.card:hover{transform:translateY(-8px);box-shadow:0 40px 70px -34px rgba(36,40,32,.55);border-color:transparent}
+.card:hover::before{opacity:1}
+.card:hover h3,.card:hover .tag{color:var(--cream)}
+.card:hover .desc{max-height:200px;opacity:1;margin-top:.2rem;color:rgba(247,244,239,.85)}
+.card:hover .ico{background:rgba(247,244,239,.16);color:var(--cream)}
+.card:hover .num{color:rgba(247,244,239,.5)}
+.card.demo .play{width:60px;height:60px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;transition:.5s var(--ease);position:relative}
+.card.demo .play::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--rose);animation:pulse 2.4s var(--ease) infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(1.7);opacity:0}}
+.card.demo:hover .play{background:var(--cream);color:var(--olive-deep)}
+
+/* ============ TESTIMONIALS ============ */
+.voices{background:var(--olive-deep);color:var(--cream);overflow:hidden}
+.voices .eyebrow{color:var(--sage)}
+.voices .eyebrow::after{background:var(--sage);opacity:.6}
+.voices .eyebrow-lat{color:var(--sage)}
+.voices h2{color:var(--cream)}
+.marquee{display:flex;gap:1.6rem;width:max-content;margin-top:3.4rem;will-change:transform}
+.tcard{
+  width:min(78vw,540px);background:rgba(247,244,239,.06);border:1px solid rgba(247,244,239,.14);
+  border-radius:26px;padding:2.6rem 2.4rem;backdrop-filter:blur(2px);flex:0 0 auto
+}
+.tcard .mark{font-family:var(--serif);font-size:4rem;line-height:.5;color:var(--rose);height:1.6rem;display:block}
+.tcard q{quotes:none;font-family:var(--serif);font-size:clamp(1.3rem,2vw,1.65rem);line-height:1.4;color:var(--cream);font-weight:400;display:block;margin:1rem 0 1.8rem}
+.tcard .who{display:flex;align-items:center;gap:1rem}
+.tcard .who .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--mauve));display:grid;place-items:center;font-family:var(--serif);font-size:1.3rem;color:#fff;flex:0 0 auto}
+.tcard .who b{display:block;font-family:var(--serif);font-size:1.05rem;font-weight:500}
+.tcard .who span{font-size:.78rem;color:var(--sage)}
+.marquee-mask{position:relative}
+.marquee-mask::before,.marquee-mask::after{content:"";position:absolute;top:0;bottom:0;width:12%;z-index:3;pointer-events:none}
+.marquee-mask::before{left:0;background:linear-gradient(90deg,var(--olive-deep),transparent)}
+.marquee-mask::after{right:0;background:linear-gradient(-90deg,var(--olive-deep),transparent)}
+
+/* ============ CONTACT ============ */
+.contact{background:
+  radial-gradient(90% 80% at 100% 0%,var(--blush) 0%,transparent 50%),
+  radial-gradient(90% 90% at 0% 100%,var(--sage) 0%,transparent 45%),
+  var(--cream)}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2.5rem,6vw,6rem);align-items:center}
+.contact-left h2{font-size:clamp(2.2rem,5vw,4rem);margin:1rem 0}
+.contact-left p{color:var(--ink-soft);max-width:34ch;font-size:1.05rem}
+.contact-left .hebrew-big{font-family:var(--hebrew);font-size:clamp(3rem,7vw,5rem);color:var(--olive);opacity:.9;margin-top:1.6rem;line-height:1}
+.form{background:var(--cream-2);border:1px solid var(--line);border-radius:30px;padding:clamp(1.8rem,4vw,2.8rem);box-shadow:0 40px 90px -50px rgba(36,40,32,.5)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.field{position:relative;margin-top:1.7rem}
+.field:first-child{margin-top:0}
+.field label{position:absolute;left:0;top:.6rem;font-size:.95rem;color:var(--ink-soft);pointer-events:none;transition:.35s var(--ease)}
+.field input,.field textarea{
+  width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--line);
+  padding:.6rem 0;font-family:var(--sans);font-size:1rem;color:var(--ink);outline:none;resize:none
+}
+.field .bar{position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--olive);transition:width .45s var(--ease)}
+.field input:focus~.bar,.field textarea:focus~.bar{width:100%}
+.field input:focus~label,.field textarea:focus~label,
+.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{
+  top:-.9rem;font-size:.72rem;letter-spacing:.1em;color:var(--olive);text-transform:uppercase
+}
+.form .submit{margin-top:2.2rem;width:100%;justify-content:center}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--ink);color:var(--sage)}
+.footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding-block:2.4rem}
+.footer .brand{color:var(--cream)}
+.footer .brand small{color:var(--sage)}
+.footer .fl{display:flex;gap:1.6rem;font-size:.82rem}
+.footer .fl a:hover{color:var(--cream)}
+.footer .cr{font-size:.78rem;opacity:.7;width:100%;text-align:center;border-top:1px solid rgba(247,244,239,.1);padding-top:1.4rem;margin-top:.4rem}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:960px){
+  .hero-grid,.philo-grid,.contact-grid{grid-template-columns:1fr}
+  .hero-art,.philo-art{margin:2rem auto 0;max-width:380px}
+  .philo-quote{right:0}
+  .svc-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .burger{display:grid;place-items:center}
+  .hebrew-watermark{opacity:.05}
+}
+@media(max-width:560px){
+  .frow{grid-template-columns:1fr}
+  .card .desc{max-height:none;opacity:1;margin-top:.6rem}
+  .card::before{display:none}
+  .card h3,.card .tag{color:inherit}
+  .card:hover h3,.card:hover .tag{color:var(--ink)}
+  .card:hover .ico{background:var(--sage);color:var(--olive-deep)}
+  .card:hover .desc{color:var(--ink-soft)}
+  .footer .wrap{flex-direction:column;text-align:center}
+}
+
+/* Mobile menu */
+.mobile-menu{position:fixed;inset:0;z-index:70;background:var(--cream);transform:translateY(-100%);transition:transform .6s var(--ease);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1.6rem}
+.mobile-menu.open{transform:translateY(0)}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;color:var(--ink)}
+.mobile-menu .close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;cursor:pointer;color:var(--ink)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal,.hero h1 .word span,.sec-head h2 .word span{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="Bay Area B'nai Mitzvah home">
+    <svg class="brandmark" viewBox="0 0 200 200" aria-hidden="true"><path d="M180.3,100 L178,115.5 L173.8,130.6 L166.3,144.3 L156.5,156.5 L143.5,165.2 L131.1,175.2 L115.7,179.1 L100,183.2 L83.7,182.1 L68.7,175.5 L55.1,167.2 L44.7,155.3 L32.7,145 L24,131.5 L19.2,116.1 L20.1,100 L24.2,84.9 L28,61.5 L37.1,48.4 L47.9,36.5 L60.9,26.8 L76.4,22.1 L91.7,15.9 L108.2,16.4 L123.8,21.5 L138.3,28.3 L149.9,39.1 L163.3,48.1 L174.8,60 L179.9,75.8 L182.1,91.9 Z" fill="none" stroke="#858A76" stroke-width="7" stroke-linecap="round"/><text x="100" y="122" text-anchor="middle" font-family="Frank Ruhl Libre,serif" font-size="80" fill="#565B49">חי</text></svg>
+    <span>Bay Area B'nai Mitzvah<small>Joyful Judaism</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#services">Offerings</a>
+    <a href="#voices">Voices</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-cta magnetic" data-scroll="#contact">Start Your Journey</button>
+  <button class="burger" id="burger" aria-label="Open menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close" id="closeMenu" aria-label="Close menu"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <a href="#philosophy" class="mm">Philosophy</a>
+  <a href="#services" class="mm">Offerings</a>
+  <a href="#voices" class="mm">Voices</a>
+  <a href="#contact" class="mm">Contact</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <span class="dot" style="width:16px;height:16px;background:var(--rose);top:22%;left:8%" data-parallax="0.4"></span>
+  <span class="dot" style="width:26px;height:26px;background:var(--sage);bottom:24%;left:44%" data-parallax="0.7"></span>
+  <span class="dot" style="width:12px;height:12px;background:var(--mauve);top:30%;right:38%" data-parallax="0.5"></span>
+  <div class="hebrew-watermark" data-parallax="0.25">מִצְוָה</div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow" data-load>בְּנֵי מִצְוָה &nbsp;·&nbsp; <span class="eyebrow-lat">Bay Area · California</span></span>
+      <h1 class="display" id="heroTitle">Creating a legacy to lovingly <em>mentor</em> B'nai Mitzvah students.</h1>
+      <p class="sub" data-load>Bringing joyful Judaism to the Bay Area — one child, one story, one sacred ceremony at a time.</p>
+      <div class="hero-ctas" data-load>
+        <button class="btn-primary magnetic" data-scroll="#contact">Start Your Journey
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <button class="btn-ghost" data-scroll="#services">
+          <span class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          See the offerings
+        </button>
+      </div>
+    </div>
+    <div class="hero-art" data-load="art">
+      <div class="art-field">
+        <div class="kb" style="background:
+          radial-gradient(80% 70% at 30% 20%,var(--blush),transparent 60%),
+          radial-gradient(90% 90% at 80% 90%,var(--olive),transparent 65%),
+          linear-gradient(150deg,var(--rose),var(--mauve))"></div>
+        <svg class="grain" width="100%" height="100%"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
+      </div>
+      <svg class="ring-svg" viewBox="0 0 200 200" data-ring><path d="M 180.3,100.0 L 180.1,107.9 L 178.0,115.5 L 177.5,123.5 L 173.8,130.6 L 170.4,137.6 L 166.3,144.3 L 160.6,149.7 L 156.5,156.5 L 149.6,160.4 L 143.5,165.2 L 136.9,169.1 L 131.1,175.2 L 123.7,178.0 L 115.7,179.1 L 107.8,179.5 L 100.0,183.2 L 91.7,184.2 L 83.7,182.1 L 75.7,180.2 L 68.7,175.5 L 60.6,173.7 L 55.1,167.2 L 48.5,162.7 L 44.7,155.3 L 39.5,149.7 L 32.7,145.0 L 28.4,138.3 L 24.0,131.5 L 21.9,123.7 L 19.2,116.1 L 18.2,108.1 L 20.1,100.0 L 21.7,92.3 L 24.2,84.9 L 23.7,76.8 L 24.9,68.9 L 28.0,61.5 L 32.4,54.8 L 37.1,48.4 L 42.5,42.5 L 47.9,36.5 L 53.8,30.8 L 60.9,26.8 L 68.6,24.2 L 76.4,22.1 L 83.6,17.7 L 91.7,15.9 L 100.0,16.4 L 108.2,16.4 L 115.9,20.0 L 123.8,21.5 L 131.1,25.0 L 138.3,28.3 L 145.3,32.2 L 149.9,39.1 L 157.1,42.9 L 163.3,48.1 L 169.9,53.3 L 174.8,60.0 L 176.7,68.2 L 179.9,75.8 L 180.8,83.9 L 182.1,91.9 L 180.3,100.0 Z" stroke="var(--olive-deep)" stroke-width="4.5"/></svg>
+      <div class="badge" data-load>
+        <span class="chai">חי</span>
+        <div><b>18 years</b><span>Guiding families</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" data-load>Scroll<div class="line"></div></div>
+</section>
+
+<!-- ================= PHILOSOPHY ================= -->
+<section class="philo pad" id="philosophy">
+  <span class="dot" style="width:20px;height:20px;background:var(--blush);top:12%;right:10%" data-parallax="0.5"></span>
+  <div class="wrap philo-grid">
+    <div class="philo-art reveal" data-reveal="scale">
+      <div class="art-field">
+        <div class="kb" style="background:
+          radial-gradient(70% 60% at 70% 20%,var(--sage),transparent 60%),
+          radial-gradient(90% 90% at 20% 90%,var(--mauve),transparent 60%),
+          linear-gradient(160deg,var(--olive),var(--rose))"></div>
+        <svg class="grain" width="100%" height="100%"><filter id="g2"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#g2)"/></svg>
+      </div>
+      <svg class="ring-svg" viewBox="0 0 200 200" data-ring><path d="M 183.4,100.0 L 181.6,108.0 L 181.6,116.2 L 177.8,123.6 L 175.7,131.4 L 173.4,139.3 L 170.2,146.9 L 164.4,152.8 L 157.3,157.3 L 150.1,161.1 L 143.6,165.2 L 137.6,170.4 L 130.7,174.0 L 123.7,178.3 L 115.7,178.8 L 107.9,180.6 L 100.0,178.0 L 92.1,180.7 L 83.8,181.5 L 74.9,182.7 L 67.5,178.5 L 61.3,172.4 L 55.6,166.4 L 49.6,161.4 L 43.6,156.4 L 36.4,152.2 L 32.0,145.4 L 27.8,138.6 L 24.8,131.1 L 23.1,123.3 L 18.1,116.3 L 18.4,108.0 L 16.3,100.0 L 19.0,92.0 L 20.0,84.1 L 23.4,76.8 L 27.2,69.8 L 29.1,62.1 L 33.0,55.2 L 35.4,47.0 L 42.8,42.8 L 46.8,35.2 L 53.2,29.9 L 59.2,23.7 L 67.2,20.9 L 75.5,19.2 L 83.6,17.3 L 92.0,18.7 L 100.0,18.7 L 108.0,18.7 L 116.0,19.6 L 124.3,19.8 L 132.2,22.4 L 140.0,25.1 L 145.9,31.3 L 151.3,37.5 L 157.1,42.9 L 164.4,47.1 L 169.1,53.8 L 172.0,61.5 L 172.1,70.1 L 175.9,77.0 L 181.6,83.8 L 183.1,91.8 L 183.4,100.0 Z" stroke="var(--mauve)" stroke-width="4"/></svg>
+      <div class="philo-quote">A ceremony we co-create — together.<small>The heart of our work</small></div>
+    </div>
+    <div class="philo-body">
+      <span class="eyebrow reveal" data-reveal>חַיִּים &nbsp;·&nbsp; <span class="eyebrow-lat">Our Philosophy</span></span>
+      <div class="sec-head"><h2 class="display" data-split>A sacred time, held with care.</h2></div>
+      <p class="reveal" data-reveal><span class="lead">The Bar, Bat, and B' Mitzvah ritual is a sacred time</span> for the family, the child, and the teacher alike. We've designed our work as a one-on-one mentoring relationship — connecting with your child to discover their passions and weave them into every lesson.</p>
+      <p class="reveal" data-reveal>We gently guide your child toward a deeper connection with Judaism, with prayer, and with the beautiful ceremony we will co-create alongside your family.</p>
+      <div class="pillars reveal" data-reveal>
+        <div class="pillar"><b>1:1</b><span>Mentoring, always</span></div>
+        <div class="pillar"><b>81</b><span>Torah portions</span></div>
+        <div class="pillar"><b>∞</b><span>Passions honored</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services pad" id="services">
+  <div class="wrap">
+    <div class="svc-top">
+      <div>
+        <span class="eyebrow reveal" data-reveal>עֲבוֹדָה &nbsp;·&nbsp; <span class="eyebrow-lat">Services & Offerings</span></span>
+        <div class="sec-head"><h2 class="display" data-split>Everything the moment asks for.</h2></div>
+      </div>
+      <p class="reveal" data-reveal>From the first lesson to the last blessing under the chuppah of the sanctuary — thoughtfully held, beautifully crafted.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="card reveal" data-reveal data-tilt>
+        <span class="num">01</span>
+        <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M5 8l7-5 7 5M5 8v9l7 4 7-4V8"/></svg></span>
+        <h3>Ceremony Officiation & Co-creation</h3>
+        <p class="desc">We design and officiate a service that is unmistakably yours — braiding tradition, family voice, and your child's spirit into one meaningful ceremony.</p>
+        <span class="tag">Co-created with your family</span>
+      </article>
+      <article class="card reveal" data-reveal data-tilt>
+        <span class="num">02</span>
+        <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 11a4 4 0 10-8 0M4 21v-1a6 6 0 0112 0v1M18 8h4M20 6v4"/></svg></span>
+        <h3>1-on-1 Mentoring</h3>
+        <p class="desc">Warm, patient, personal lessons that meet your child exactly where they are — building confidence in Hebrew, trope, and prayer at their own joyful pace.</p>
+        <span class="tag">Weekly, personal, paced for them</span>
+      </article>
+      <article class="card reveal" data-reveal data-tilt>
+        <span class="num">03</span>
+        <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
+        <h3>Songleaders</h3>
+        <p class="desc">Spirited songleading that fills the room — the kind of music that turns a service into a celebration everyone sings along to and remembers.</p>
+        <span class="tag">Live joy, in every melody</span>
+      </article>
+      <article class="card demo reveal" data-reveal data-tilt>
+        <span class="num">04</span>
+        <span class="play magnetic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <h3>Videography Packages</h3>
+        <p class="desc">Cinematic keepsakes of the day — from the first aliyah to the last hora — captured with warmth so you can relive every moment for years.</p>
+        <span class="tag">Watch demo →</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="voices pad" id="voices">
+  <div class="wrap">
+    <span class="eyebrow reveal" data-reveal>קוֹלוֹת &nbsp;·&nbsp; <span class="eyebrow-lat">Voices of Our Community</span></span>
+    <div class="sec-head"><h2 class="display" data-split>What families remember.</h2></div>
+  </div>
+  <div class="marquee-mask">
+    <div class="marquee" id="marquee">
+      <figure class="tcard">
+        <span class="mark">&ldquo;</span>
+        <q>Miriam is amazing! My daughter looks forward to her lessons. She is so warm, creative and patient. It's a whole Jewish education.</q>
+        <figcaption class="who"><span class="av">B</span><div><b>Becca Meyer</b><span>Executive Director, Camp Tawonga</span></div></figcaption>
+      </figure>
+      <figure class="tcard">
+        <span class="mark">&ldquo;</span>
+        <q>Miriam is an incredible Jewish educator and service leader. Her passion comes through as she creates spiritual moments rich in history and inspiration.</q>
+        <figcaption class="who"><span class="av">I</span><div><b>Isaac Zones</b><span>Tawonga Songleader</span></div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact pad" id="contact">
+  <span class="dot" style="width:22px;height:22px;background:var(--rose);top:16%;left:6%" data-parallax="0.6"></span>
+  <div class="wrap contact-grid">
+    <div class="contact-left">
+      <span class="eyebrow reveal" data-reveal>בְּרָכָה &nbsp;·&nbsp; <span class="eyebrow-lat">Begin the conversation</span></span>
+      <h2 class="display reveal" data-reveal>Let's create<br>something sacred.</h2>
+      <p class="reveal" data-reveal>Tell us about your child and your family. We'll reach out to start dreaming up a ceremony that's truly your own.</p>
+      <div class="hebrew-big reveal" data-reveal>מַזָּל טוֹב</div>
+    </div>
+    <form class="form reveal" data-reveal onsubmit="return false">
+      <div class="frow">
+        <div class="field"><input id="fn" type="text" placeholder=" " required /><label for="fn">First name</label><span class="bar"></span></div>
+        <div class="field"><input id="em" type="email" placeholder=" " required /><label for="em">Email</label><span class="bar"></span></div>
+      </div>
+      <div class="field"><input id="sj" type="text" placeholder=" " /><label for="sj">Subject</label><span class="bar"></span></div>
+      <div class="field"><textarea id="ms" rows="4" placeholder=" "></textarea><label for="ms">Message</label><span class="bar"></span></div>
+      <button class="btn-primary submit magnetic" type="submit">Send inquiry
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <svg class="brandmark" viewBox="0 0 200 200" aria-hidden="true"><path d="M180.3,100 L173.8,130.6 L156.5,156.5 L131.1,175.2 L100,183.2 L68.7,175.5 L44.7,155.3 L24,131.5 L20.1,100 L28,61.5 L47.9,36.5 L76.4,22.1 L108.2,16.4 L138.3,28.3 L163.3,48.1 L182.1,91.9 Z" fill="none" stroke="#C6C7B9" stroke-width="7" stroke-linecap="round"/><text x="100" y="122" text-anchor="middle" font-family="Frank Ruhl Libre,serif" font-size="80" fill="#F7F4EF">חי</text></svg>
+      <span>Bay Area B'nai Mitzvah<small>Joyful Judaism</small></span>
+    </a>
+    <div class="fl">
+      <a href="#philosophy">Philosophy</a>
+      <a href="#services">Offerings</a>
+      <a href="#voices">Voices</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="cr">© Bay Area B'nai Mitzvah · Bringing joyful Judaism to the Bay Area · מַזָּל טוֹב</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = typeof gsap !== 'undefined';
+  if(hasGSAP && !RM) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---- inject generated ring paths ---- */
+  const RINGS = {
+    R7: "M 180.3,100.0 L 180.1,107.9 L 178.0,115.5 L 177.5,123.5 L 173.8,130.6 L 170.4,137.6 L 166.3,144.3 L 160.6,149.7 L 156.5,156.5 L 149.6,160.4 L 143.5,165.2 L 136.9,169.1 L 131.1,175.2 L 123.7,178.0 L 115.7,179.1 L 107.8,179.5 L 100.0,183.2 L 91.7,184.2 L 83.7,182.1 L 75.7,180.2 L 68.7,175.5 L 60.6,173.7 L 55.1,167.2 L 48.5,162.7 L 44.7,155.3 L 39.5,149.7 L 32.7,145.0 L 28.4,138.3 L 24.0,131.5 L 21.9,123.7 L 19.2,116.1 L 18.2,108.1 L 20.1,100.0 L 21.7,92.3 L 24.2,84.9 L 23.7,76.8 L 24.9,68.9 L 28.0,61.5 L 32.4,54.8 L 37.1,48.4 L 42.5,42.5 L 47.9,36.5 L 53.8,30.8 L 60.9,26.8 L 68.6,24.2 L 76.4,22.1 L 83.6,17.7 L 91.7,15.9 L 100.0,16.4 L 108.2,16.4 L 115.9,20.0 L 123.8,21.5 L 131.1,25.0 L 138.3,28.3 L 145.3,32.2 L 149.9,39.1 L 157.1,42.9 L 163.3,48.1 L 169.9,53.3 L 174.8,60.0 L 176.7,68.2 L 179.9,75.8 L 180.8,83.9 L 182.1,91.9 L 180.3,100.0 Z",
+    R21: "M 183.4,100.0 L 181.6,108.0 L 181.6,116.2 L 177.8,123.6 L 175.7,131.4 L 173.4,139.3 L 170.2,146.9 L 164.4,152.8 L 157.3,157.3 L 150.1,161.1 L 143.6,165.2 L 137.6,170.4 L 130.7,174.0 L 123.7,178.3 L 115.7,178.8 L 107.9,180.6 L 100.0,178.0 L 92.1,180.7 L 83.8,181.5 L 74.9,182.7 L 67.5,178.5 L 61.3,172.4 L 55.6,166.4 L 49.6,161.4 L 43.6,156.4 L 36.4,152.2 L 32.0,145.4 L 27.8,138.6 L 24.8,131.1 L 23.1,123.3 L 18.1,116.3 L 18.4,108.0 L 16.3,100.0 L 19.0,92.0 L 20.0,84.1 L 23.4,76.8 L 27.2,69.8 L 29.1,62.1 L 33.0,55.2 L 35.4,47.0 L 42.8,42.8 L 46.8,35.2 L 53.2,29.9 L 59.2,23.7 L 67.2,20.9 L 75.5,19.2 L 83.6,17.3 L 92.0,18.7 L 100.0,18.7 L 108.0,18.7 L 116.0,19.6 L 124.3,19.8 L 132.2,22.4 L 140.0,25.1 L 145.9,31.3 L 151.3,37.5 L 157.1,42.9 L 164.4,47.1 L 169.1,53.8 L 172.0,61.5 L 172.1,70.1 L 175.9,77.0 L 181.6,83.8 L 183.1,91.8 L 183.4,100.0 Z"
+  };
+  document.querySelectorAll('[data-ring] path').forEach(p=>{
+    const d=p.getAttribute('d');
+    if(d==='M 180.3,100.0 L 180.1,107.9 L 178.0,115.5 L 177.5,123.5 L 173.8,130.6 L 170.4,137.6 L 166.3,144.3 L 160.6,149.7 L 156.5,156.5 L 149.6,160.4 L 143.5,165.2 L 136.9,169.1 L 131.1,175.2 L 123.7,178.0 L 115.7,179.1 L 107.8,179.5 L 100.0,183.2 L 91.7,184.2 L 83.7,182.1 L 75.7,180.2 L 68.7,175.5 L 60.6,173.7 L 55.1,167.2 L 48.5,162.7 L 44.7,155.3 L 39.5,149.7 L 32.7,145.0 L 28.4,138.3 L 24.0,131.5 L 21.9,123.7 L 19.2,116.1 L 18.2,108.1 L 20.1,100.0 L 21.7,92.3 L 24.2,84.9 L 23.7,76.8 L 24.9,68.9 L 28.0,61.5 L 32.4,54.8 L 37.1,48.4 L 42.5,42.5 L 47.9,36.5 L 53.8,30.8 L 60.9,26.8 L 68.6,24.2 L 76.4,22.1 L 83.6,17.7 L 91.7,15.9 L 100.0,16.4 L 108.2,16.4 L 115.9,20.0 L 123.8,21.5 L 131.1,25.0 L 138.3,28.3 L 145.3,32.2 L 149.9,39.1 L 157.1,42.9 L 163.3,48.1 L 169.9,53.3 L 174.8,60.0 L 176.7,68.2 L 179.9,75.8 L 180.8,83.9 L 182.1,91.9 L 180.3,100.0 Z') p.setAttribute('d',RINGS.R7);
+    if(d==='M 183.4,100.0 L 181.6,108.0 L 181.6,116.2 L 177.8,123.6 L 175.7,131.4 L 173.4,139.3 L 170.2,146.9 L 164.4,152.8 L 157.3,157.3 L 150.1,161.1 L 143.6,165.2 L 137.6,170.4 L 130.7,174.0 L 123.7,178.3 L 115.7,178.8 L 107.9,180.6 L 100.0,178.0 L 92.1,180.7 L 83.8,181.5 L 74.9,182.7 L 67.5,178.5 L 61.3,172.4 L 55.6,166.4 L 49.6,161.4 L 43.6,156.4 L 36.4,152.2 L 32.0,145.4 L 27.8,138.6 L 24.8,131.1 L 23.1,123.3 L 18.1,116.3 L 18.4,108.0 L 16.3,100.0 L 19.0,92.0 L 20.0,84.1 L 23.4,76.8 L 27.2,69.8 L 29.1,62.1 L 33.0,55.2 L 35.4,47.0 L 42.8,42.8 L 46.8,35.2 L 53.2,29.9 L 59.2,23.7 L 67.2,20.9 L 75.5,19.2 L 83.6,17.3 L 92.0,18.7 L 100.0,18.7 L 108.0,18.7 L 116.0,19.6 L 124.3,19.8 L 132.2,22.4 L 140.0,25.1 L 145.9,31.3 L 151.3,37.5 L 157.1,42.9 L 164.4,47.1 L 169.1,53.8 L 172.0,61.5 L 172.1,70.1 L 175.9,77.0 L 181.6,83.8 L 183.1,91.8 L 183.4,100.0 Z') p.setAttribute('d',RINGS.R21);
+  });
+
+  /* ---- split hero title into words for stagger ---- */
+  function splitWords(el){
+    const words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = words.map(w=>`<span class="word"><span>${w}</span></span>`).join(' ');
+  }
+  const heroTitle = document.getElementById('heroTitle');
+  // preserve <em> by splitting on nodes
+  (function splitHero(){
+    const nodes=[...heroTitle.childNodes]; heroTitle.innerHTML='';
+    nodes.forEach(n=>{
+      if(n.nodeType===3){
+        n.textContent.trim().split(/\s+/).filter(Boolean).forEach(w=>{
+          heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span>${w}</span></span> `);
+        });
+      }else{
+        const w=n.textContent.trim();
+        heroTitle.insertAdjacentHTML('beforeend',`<span class="word"><span><em>${w}</em></span></span> `);
+      }
+    });
+  })();
+  document.querySelectorAll('[data-split]').forEach(splitWords);
+
+  /* ---- NAV scroll state ---- */
+  const nav=document.getElementById('nav');
+  const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>40);
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---- mobile menu ---- */
+  const mm=document.getElementById('mobileMenu');
+  document.getElementById('burger').onclick=()=>mm.classList.add('open');
+  document.getElementById('closeMenu').onclick=()=>mm.classList.remove('open');
+  document.querySelectorAll('.mm').forEach(a=>a.onclick=()=>mm.classList.remove('open'));
+
+  /* ---- smooth scroll for data-scroll buttons & anchors ---- */
+  document.querySelectorAll('[data-scroll]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const t=document.querySelector(b.dataset.scroll);
+      if(t) t.scrollIntoView({behavior:RM?'auto':'smooth'});
+    });
+  });
+
+  if(!hasGSAP || RM){
+    // Fallback: reveal everything immediately
+    document.querySelectorAll('.reveal').forEach(e=>e.style.opacity=1);
+    document.querySelectorAll('.word span').forEach(e=>e.style.transform='none');
+    return;
+  }
+
+  /* ---- HERO load-in timeline ---- */
+  const tl=gsap.timeline({defaults:{ease:'power4.out'}});
+  tl.from('.hero .eyebrow',{y:20,opacity:0,duration:.8},0.1)
+    .from('#heroTitle .word span',{yPercent:120,duration:1.1,stagger:.07},0.2)
+    .from('.hero .sub',{y:24,opacity:0,duration:.9},'-=0.7')
+    .from('.hero-ctas',{y:24,opacity:0,duration:.9},'-=0.7')
+    .from('.hero-art',{scale:.9,opacity:0,duration:1.2,ease:'power3.out'},'-=1.0')
+    .from('.badge',{y:20,opacity:0,duration:.7},'-=0.5')
+    .from('.scroll-hint',{opacity:0,duration:.8},'-=0.4');
+
+  // floating CTA
+  gsap.to('.hero-ctas .btn-primary',{y:-6,duration:2.2,repeat:-1,yoyo:true,ease:'sine.inOut'});
+  // Ken Burns on hero + philo fields
+  gsap.utils.toArray('.kb').forEach((k,i)=>{
+    gsap.fromTo(k,{scale:1.05},{scale:1.16,duration:9+i*2,repeat:-1,yoyo:true,ease:'sine.inOut'});
+  });
+
+  /* ---- draw the painted rings on scroll ---- */
+  document.querySelectorAll('[data-ring] path').forEach(p=>{
+    const len=p.getTotalLength();
+    p.style.strokeDasharray=len;
+    gsap.fromTo(p,{strokeDashoffset:len},{
+      strokeDashoffset:0,duration:1.8,ease:'power2.inOut',
+      scrollTrigger:{trigger:p,start:'top 82%'}
+    });
+  });
+
+  /* ---- section split-headers ---- */
+  gsap.utils.toArray('[data-split]').forEach(h=>{
+    gsap.from(h.querySelectorAll('.word span'),{
+      yPercent:115,duration:.9,stagger:.05,ease:'power4.out',
+      scrollTrigger:{trigger:h,start:'top 85%'}
+    });
+  });
+
+  /* ---- generic reveals ---- */
+  gsap.utils.toArray('[data-reveal]').forEach(el=>{
+    const mode=el.dataset.reveal;
+    const from = mode==='scale'
+      ? {opacity:0,scale:.9}
+      : {opacity:0,y:40};
+    gsap.fromTo(el,from,{
+      opacity:1,y:0,scale:1,duration:1,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%'}
+    });
+  });
+
+  /* ---- parallax ambient elements ---- */
+  gsap.utils.toArray('[data-parallax]').forEach(el=>{
+    const s=parseFloat(el.dataset.parallax);
+    gsap.to(el,{yPercent:-40*s,ease:'none',
+      scrollTrigger:{trigger:el.closest('section'),start:'top bottom',end:'bottom top',scrub:true}});
+  });
+
+  /* ---- card entrance stagger inside services ---- */
+  gsap.from('.svc-grid .card',{
+    y:50,opacity:0,duration:.9,stagger:.12,ease:'power3.out',
+    scrollTrigger:{trigger:'.svc-grid',start:'top 80%'}
+  });
+
+  /* ---- testimonials marquee (seamless loop) ---- */
+  (function(){
+    const m=document.getElementById('marquee');
+    // duplicate for seamless loop
+    m.innerHTML+=m.innerHTML;
+    const half=m.scrollWidth/2;
+    gsap.to(m,{x:-half,duration:26,ease:'none',repeat:-1,
+      modifiers:{x:gsap.utils.unitize(x=>parseFloat(x)%half)}});
+  })();
+
+  /* ---- MAGNETIC buttons ---- */
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const x=e.clientX-r.left-r.width/2;
+      const y=e.clientY-r.top-r.height/2;
+      gsap.to(btn,{x:x*.35,y:y*.4,duration:.5,ease:'power3.out'});
+    });
+    btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}));
+  });
+
+  /* ---- subtle 3D tilt on service cards ---- */
+  document.querySelectorAll('[data-tilt]').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-5;
+      const ry=((e.clientX-r.left)/r.width-.5)*5;
+      gsap.to(card,{rotateX:rx,rotateY:ry,transformPerspective:900,duration:.5,ease:'power2.out'});
+    });
+    card.addEventListener('mouseleave',()=>gsap.to(card,{rotateX:0,rotateY:0,duration:.6,ease:'power2.out'}));
+  });
+})();
+</script>
+</body>
+</html>
